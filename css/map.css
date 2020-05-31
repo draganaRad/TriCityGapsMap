@@ -1,0 +1,11 @@
+.mapTitle {
+    width: 270px;
+    font-size: 16px;
+    color: #444343;
+    font-family: "Times New Roman", Georgia, Serif;
+    padding: 1px 14px;
+    background-color: rgba(235, 235, 230, 0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    border: 1px solid grey;
+}

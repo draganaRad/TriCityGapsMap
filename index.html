@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TriCityGaps</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="css/leaflet.css">
+    <link rel="stylesheet" href="css/map.css">
+    <script src="js/leaflet.js"></script>
+    <script src="js/TriCityGaps.js"></script>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        // Create variable to hold map element, give initial settings to map
+        var map = L.map("map", {center: [49.254667, -122.825015], zoom: 12});
+
+        // Add OpenStreetMap tile layer to map element
+        L.tileLayer(
+            'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 19}
+        ).addTo(map);
+        // Add HUB TriCity committee attribution
+        map.attributionControl.addAttribution('<a href="http://wiki.bikehub.ca/committees/index.php?title=Tri-Cities_Committee_Wiki">Tri-Cities HUB Committee</a>');
+
+
+        // add map title (box on bottom left)
+        let mapTitle = L.control({position: "bottomleft"});
+        mapTitle.onAdd = function() {
+            let div = L.DomUtil.create("div", "mapTitle");
+            div.innerHTML = 
+                '<p><b>Tri-Cities HUB Committee\'s Top Gaps</b></p>'
+            return div;
+        };
+
+        mapTitle.addTo(map)
+
+        // 
+        var gapStyle = {
+            "color": "#FF7F00", // darkOrange_color ("Paired")
+            "weight": 5,
+            "opacity": 0.5
+        };
+
+        function onEachFeature(feature, layer) {
+        var popupContent = ""
+        if (feature.properties) {
+            if (feature.properties.location) {
+                popupContent += "<b>Location: </b>";
+                popupContent += feature.properties.location;
+            }
+            if (feature.properties.description) {
+                popupContent += "<br><b>Description: </b>";
+                popupContent += feature.properties.description;
+            }
+        }
+        layer.bindPopup(popupContent);
+        }
+
+        L.geoJSON(geojsonFeature, {
+            onEachFeature: onEachFeature,
+            style: gapStyle
+        }).addTo(map);
+
+    </script>
+</body>
+</html>
