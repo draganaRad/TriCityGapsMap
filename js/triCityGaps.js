@@ -187,7 +187,7 @@ var geojsonFeature = {
     {
       "type": "Feature",
       "properties": {
-                "description": "Let's create connection to Sasamat Lake. Regional Greenway Plan 2050 has identified the Sasamat Greenway gap.",
+                "description": "Let's create connection to Sasamat Lake. Regional Greenway Plan 2050 has also identified the Sasamat Greenway gap.",
                 "location": "Alderside to Sasamat Lake/Belcarra Park."
             },
       "geometry": {
