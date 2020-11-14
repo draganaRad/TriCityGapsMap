@@ -28,6 +28,9 @@
     <script>
         // Create variable to hold map element, give initial settings to map
         var map = L.map("map", { center: [49.254667, -122.825015], zoom: 12 });
+        if (L.Browser.mobile) {
+            map.removeControl(map.zoomControl);
+        }
 
         // Add OpenStreetMap tile layer to map element
         L.tileLayer(
