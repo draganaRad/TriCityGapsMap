@@ -34,6 +34,7 @@
         var map = L.map("map", { center: [49.254667, -122.825015], zoom: 12 });
         if (L.Browser.mobile) {
             map.removeControl(map.zoomControl);
+            map.setZoom(11);
         }
 
         // Add OpenStreetMap tile layer to map element
