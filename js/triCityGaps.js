@@ -3,6 +3,7 @@ var geojsonFeature = {
   "features": [
     {
       "type": "Feature",
+      "id": "1",
       "properties": {
                 "description": "Let's extend the Central Valley Greenway all the way to the Port Mann Bridge.",
                 "location": "Braid Station to Port Mann Bridge, Coquitlam."
@@ -23,6 +24,22 @@ var geojsonFeature = {
     },
     {
       "type": "Feature",
+      "id": "1.1",
+      "properties": {
+                "description": "Let's extend the Central Valley Greenway all the way to the Port Mann Bridge.",
+                "location": "Braid Station to Port Mann Bridge, Coquitlam."
+            },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.8484270721674,
+          49.22965412245079
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "2",
       "properties": {
         "description": "This stretch is well served for confident grownups, but none of us is going to ride there with our kids anytime soon. It connects two Skytrain stations, many schools, two civic libraries, two city halls, multiple recreation complexes, multiple parks. It needs a separated lane on the north side, where there is a lot of room and very few cross-streets.",
         "location": "Guildford Way, Coquitlam City Hall to Port Moody City Hall."
@@ -127,6 +144,22 @@ var geojsonFeature = {
     },
     {
       "type": "Feature",
+      "id": "2.1",
+      "properties": {
+        "description": "This stretch is well served for confident grownups, but none of us is going to ride there with our kids anytime soon. It connects two Skytrain stations, many schools, two civic libraries, two city halls, multiple recreation complexes, multiple parks. It needs a separated lane on the north side, where there is a lot of room and very few cross-streets.",
+        "location": "Guildford Way, Coquitlam City Hall to Port Moody City Hall."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.80857145786285,
+          49.284596674554166
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3",
       "properties": {
         "location": "Pitt River Bridge to Coquitlam Center/ Lincoln Station, PoCo/ Coquitlam."
       },
@@ -146,6 +179,21 @@ var geojsonFeature = {
     },
     {
       "type": "Feature",
+      "id": "3.1",
+      "properties": {
+        "location": "Pitt River Bridge to Coquitlam Center/ Lincoln Station, PoCo/ Coquitlam."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.76109904050827,
+          49.26382529551108
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "4",
       "properties": {
         "description": "Let's connect the Barnet Highway to Rocky Point Park and Moody Central Station!",
         "location": "Clarke Road, Port Moody."
@@ -166,6 +214,22 @@ var geojsonFeature = {
     },
     {
       "type": "Feature",
+      "id": "4.1",
+      "properties": {
+        "description": "Let's connect the Barnet Highway to Rocky Point Park and Moody Central Station!",
+        "location": "Clarke Road, Port Moody."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.85662055015564,
+          49.27783287134203
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "5",
       "properties": {
         "description": "This important transportation route is dead flat. Let's create a great bike connection here!",
         "location": "Coquitlam Central Station to Port Mann Bridge, Coquitlam."
@@ -186,6 +250,22 @@ var geojsonFeature = {
     },
     {
       "type": "Feature",
+      "id": "5.1",
+      "properties": {
+        "description": "This important transportation route is dead flat. Let's create a great bike connection here!",
+        "location": "Coquitlam Central Station to Port Mann Bridge, Coquitlam."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.80705533921717,
+          49.25003150305601
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6",
       "properties": {
                 "description": "Let's create connection to Sasamat Lake. Regional Greenway Plan 2050 has also identified the Sasamat Greenway gap.",
                 "location": "Alderside to Sasamat Lake/Belcarra Park."
@@ -325,6 +405,21 @@ var geojsonFeature = {
             -122.8895366191864,
             49.31673704213806
           ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6.1",
+      "properties": {
+                "description": "Let's create connection to Sasamat Lake. Regional Greenway Plan 2050 has also identified the Sasamat Greenway gap.",
+                "location": "Alderside to Sasamat Lake/Belcarra Park."
+            },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.8750754892826,
+          49.31017372224899
         ]
       }
     }
