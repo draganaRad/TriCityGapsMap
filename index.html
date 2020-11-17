@@ -71,14 +71,16 @@
             return div;
         };
 
+        lineWeight = 8
         if (!L.Browser.mobile) {
             mapTitle.addTo(map)
+            lineWeight = 5
         }
 
         // lines style
         var gapStyle = {
             "color": "#FF7F00", // darkOrange_color ("Paired")
-            "weight": 8,
+            "weight": lineWeight,
             "opacity": 0.5
         };
         var gapIconColor = 'orange'
