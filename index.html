@@ -9,6 +9,7 @@
 
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/leaflet.awesome-markers.css">
+    <!-- popup click for markers is broken in Safari on Mac in Leaflet 1.7.1 -->
     <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin="" /> -->
@@ -77,7 +78,7 @@
         // lines style
         var gapStyle = {
             "color": "#FF7F00", // darkOrange_color ("Paired")
-            "weight": 5,
+            "weight": 8,
             "opacity": 0.5
         };
         var gapIconColor = 'orange'
