@@ -44,7 +44,9 @@
     <div id="map"></div>
     <script>
         // Create variable to hold map element, give initial settings to map
-        var map = L.map("map", { center: [49.254667, -122.825015], zoom: 12 });
+        var myRenderer = L.canvas({ padding: 0.5, tolerance: 20 });
+        var map = L.map("map", { center: [49.254667, -122.825015], zoom: 12, renderer: myRenderer});
+        //var map = L.map("map", { center: [49.254667, -122.825015], zoom: 12});
         if (L.Browser.mobile) {
             map.removeControl(map.zoomControl);
             map.setZoom(11);
@@ -71,11 +73,14 @@
             return div;
         };
 
-        lineWeight = 8
+        lineWeight = 5
         if (!L.Browser.mobile) {
             mapTitle.addTo(map)
             lineWeight = 5
         }
+
+        //var myRenderer = L.canvas({ padding: 0.5, tolerance: 20 });
+        //var line = L.polyline( coordinates, { renderer: myRenderer } );     
 
         // lines style
         var gapStyle = {
