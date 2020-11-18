@@ -44,12 +44,13 @@
     <div id="map"></div>
     <script>
         // Create variable to hold map element, give initial settings to map
-        var myRenderer = L.canvas({ padding: 0.5, tolerance: 20 });
-        var map = L.map("map", { center: [49.254667, -122.825015], zoom: 12, renderer: myRenderer});
-        //var map = L.map("map", { center: [49.254667, -122.825015], zoom: 12});
+        var centerCoord = [49.254667, -122.825015]
         if (L.Browser.mobile) {
-            map.removeControl(map.zoomControl);
-            map.setZoom(11);
+            // increase tolerance for tapping (it was hard to tap on line exactly), zoom out a bit, and remove zoom control
+            var myRenderer = L.canvas({ padding: 0.1, tolerance: 15 });
+            var map = L.map("map", { center: centerCoord, zoom: 12, renderer: myRenderer, zoomControl: false});
+        }else{
+            var map = L.map("map", { center: centerCoord, zoom: 12}); 
         }
 
         // Add OpenStreetMap tile layer to map element
@@ -76,11 +77,8 @@
         lineWeight = 5
         if (!L.Browser.mobile) {
             mapTitle.addTo(map)
-            lineWeight = 5
-        }
-
-        //var myRenderer = L.canvas({ padding: 0.5, tolerance: 20 });
-        //var line = L.polyline( coordinates, { renderer: myRenderer } );     
+            lineWeight = 6
+        }    
 
         // lines style
         var gapStyle = {
