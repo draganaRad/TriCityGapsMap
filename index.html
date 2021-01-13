@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>TriCity Top Cycling Gaps</title>
+    <title>TriCity Cycling Gaps</title>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,18 +13,25 @@
     <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin="" /> -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="anonymous" />
 
     <link rel="stylesheet" href="css/map.css">
+    <link rel="stylesheet" href="css/all.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <!-- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script> -->
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin="anonymous"></script>
 
     <script src="js/leaflet.awesome-markers.js"></script>
-    <script src="js/triCityGaps.js"></script>
+    <script src="data/triCityGaps.js"></script>
+    <script src="data/HUBPriorityGapMapTriCity.js"></script>
     <style>
         body {
             padding: 0;
@@ -42,15 +49,22 @@
 
 <body>
     <div id="map"></div>
+
     <script>
+        const legendTitle = "Tri-Cities Gaps"
+        const settings = [
+            { color: '#FF7F00', weight: 3, key: '1', zIndex: 1, title: 'Local Committee Top Gaps', url: 'data/level_1.json' },
+            { color: '#563B68', weight: 3, key: '2', zIndex: 2, title: 'HUB Gaps', url: 'data/level_2.json' },
+            { color: '#563B68', weight: 3, key: '3', zIndex: 3, title: 'Low stress for few (LTS 3)', url: 'data/level_3.json' }]
+
         // Create variable to hold map element, give initial settings to map
         var centerCoord = [49.254667, -122.825015]
         if (L.Browser.mobile) {
             // increase tolerance for tapping (it was hard to tap on line exactly), zoom out a bit, and remove zoom control
             var myRenderer = L.canvas({ padding: 0.1, tolerance: 5 });
-            var map = L.map("map", { center: centerCoord, zoom: 11, renderer: myRenderer, zoomControl: false});
-        }else{
-            var map = L.map("map", { center: centerCoord, zoom: 12}); 
+            var map = L.map("map", { center: centerCoord, zoom: 11, renderer: myRenderer, zoomControl: false });
+        } else {
+            var map = L.map("map", { center: centerCoord, zoom: 12 });
         }
 
         // Add OpenStreetMap tile layer to map element
@@ -66,28 +80,56 @@
 
 
         //add map title
-        let mapTitle = L.control({ position: "topright" });
-        mapTitle.onAdd = function () {
-            let div = L.DomUtil.create("div", "mapTitle");
-            div.innerHTML =
-                '<p><b>Tri-Cities HUB Committee\'s Top Gaps</b></p>'
-            return div;
-        };
+        // let mapTitle = L.control({ position: "topright" });
+        // mapTitle.onAdd = function () {
+        //     let div = L.DomUtil.create("div", "mapTitle");
+        //     div.innerHTML =
+        //         '<p><b>Tri-Cities HUB Committee\'s Top Gaps</b></p>'
+        //     return div;
+        // };
 
         lineWeight = 5
         if (!L.Browser.mobile) {
-            mapTitle.addTo(map)
+            //mapTitle.addTo(map)
             lineWeight = 6
-        }    
+        }
 
+        // HUB gaps
+        function onEachFeatureHUB(feature, layer) {
+            var popupContent = ""
+            if (feature.properties) {
+                if (feature.properties.Name) {
+                    popupContent += "<b>Name: </b>";
+                    popupContent += feature.properties.Name;
+                }
+                if (feature.properties.Description) {
+                    popupContent += "<br><b>Description: </b>";
+                    popupContent += feature.properties.Description;
+                }
+            }
+            layer.bindPopup(popupContent);
+        }
+        var HUBgapStyle = {
+            "color": "#563B68", // 'darkpurple'
+            "weight": lineWeight,
+            "opacity": 0.5
+        };
+        L.geoJSON(HUBGaps, {
+            onEachFeature: onEachFeatureHUB,
+            style: HUBgapStyle
+        }).addTo(map);
+
+        // HUB adopt gap campain markers
+
+        // HUB TriCity Committe Top gaps
         // lines style
         var gapStyle = {
             "color": "#FF7F00", // darkOrange_color ("Paired")
             "weight": lineWeight,
             "opacity": 0.5
         };
-        var gapIconColor = 'orange'
-        var gapIconLight = "#E9EFE9" // light green (like map background. "Pages" color tool.)
+        // var gapIconColor = 'orange'
+        // var gapIconLight = "#E9EFE9" // light green (like map background. "Pages" color tool.)
 
         function onEachFeature(feature, layer) {
             var popupContent = ""
@@ -104,12 +146,12 @@
             layer.bindPopup(popupContent);
         }
 
-        var gapMarker = L.AwesomeMarkers.icon({
-            icon: 'circle',
-            markerColor: gapIconColor,
-            prefix: 'fa',
-            iconColor: gapIconLight
-        });
+        // var gapMarker = L.AwesomeMarkers.icon({
+        //     icon: 'circle',
+        //     markerColor: gapIconColor,
+        //     prefix: 'fa',
+        //     iconColor: gapIconLight
+        // });
 
         var gapLayer = new L.geoJSON(geojsonFeature, {
             style: gapStyle,
@@ -122,10 +164,68 @@
         });
         gapLayer.addTo(map);
 
-        // L.geoJSON(geojsonFeature, {
-        //     onEachFeature: onEachFeature,
-        //     style: gapStyle
-        // }).addTo(map);
+        // legend 
+        function addLegend() {
+            const legend = L.control({ position: 'topright' })
+            legend.onAdd = function (map) {
+                // const div = L.DomUtil.create('div', 'info legend')
+                // //let legendHtml = '<center><a href="' + homePage + '" target="_blank"><h3>' + legendTitle + '</h3></a></center><table>'
+                // let legendHtml = '<center><h3>' + legendTitle + '</h3></a></center><table>'
+                // for (let setting of settings) {
+                //     legendHtml += addLegendLine(setting)
+                // }
+                // legendHtml += '</table>'
+                // div.innerHTML = legendHtml
+                // div.addEventListener('mouseover', function () { map.doubleClickZoom.disable(); });
+                // div.addEventListener('mouseout', function () { map.doubleClickZoom.enable(); });
+                // return div
+
+                const div = L.DomUtil.create('div', 'pad1')
+                let legendHtml = '<div id="legendbtn" class="fill-darken2 pad1 icon menu button fr"></div> <div id="legend" class="fill-darken1 round" style="display: none"><div id="closebtn" class="fill-darken2 pad1 icon close button fr"></div><div class="clearfix"></div><form><fieldset class="checkbox-pill clearfix"><input type="checkbox" id="low_stress" checked="checked"><label for="low_stress" id="low_stress-label" class="button icon check quiet col12"><span style="display: inline-block;width:50px; height:8px;background-color:#377EB8"></span>&nbsp;Low Stress</label><input type="checkbox" id="high_stress" checked="checked"><label for="high_stress" id="high_stress-label" class="button icon check quiet col12"><span style="display: inline-block;width:50px; height:8px;background-color:#377EB8"></span>&nbsp;Low Stress</label></fieldset></form></div>'
+                div.innerHTML = legendHtml
+                return div
+            }
+            legend.addTo(map)
+        }
+
+        function addLegendLine(setting) {
+            return ('<tr><td><input type="checkbox" id="' +
+                setting.key +
+                '" onclick="toggleLayer(this)" checked /></td>' +
+                '<td><hr style="display:inline-block; width: 50px;" color="' +
+                setting.color +
+                '" size="5" /></td><td>' +
+                setting.title +
+                '</td></tr>'
+            )
+        }
+
+        addLegend()
+
+            // show hide legend
+    document.getElementById('legendbtn').onclick = function () { toggleDisplay(['legendbtn', 'legend']) };
+    document.getElementById('closebtn').onclick = function () { toggleDisplay(['legendbtn', 'legend']) };
+
+    // add info to checkboxes
+    // document.getElementById('low_stress-label').innerHTML = '<span style="display: inline-block;width:50px; height:8px;background-color: ' + '#377EB8' + '"></span>&nbsp;' + 'Low Stress';
+    // document.getElementById('low_stress').onclick = toggleLayer;
+    // document.getElementById('high_stress-label').innerHTML = '<span style="display: inline-block;width:50px; height:8px;background-color: ' + '#FF7F00' + '"></span>&nbsp;' + 'High Stress';
+    // document.getElementById('high_stress').onclick = toggleLayer;
+
+    function toggleDisplay(elementIds) {
+        elementIds.forEach(function (elementId) {
+            var x = document.getElementById(elementId);
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        });
+    }
+
+    // function toggleLayer(checkbox) {
+    //     map.setLayoutProperty(checkbox.currentTarget.id, 'visibility', checkbox.currentTarget.checked ? 'visible' : 'none');
+    // }
 
     </script>
 </body>
