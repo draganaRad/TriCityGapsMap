@@ -32,6 +32,8 @@
     <script src="js/leaflet.awesome-markers.js"></script>
     <script src="data/triCityGaps.js"></script>
     <script src="data/HUBPriorityGapMapTriCity.js"></script>
+    <script src="data/AdoptGapTriCity.js"></script>
+
     <style>
         body {
             padding: 0;
@@ -51,9 +53,8 @@
     <div id="map"></div>
 
     <script>
-        const legendTitle = "Tri-Cities Gaps"
         const settings = [
-            { color: '#FF7F00', weight: 3, key: '1', zIndex: 1, title: 'Local Committee Top Gaps', url: 'data/level_1.json' },
+            { color: '#FF7F00', weight: 3, key: '1', zIndex: 1, title: 'Committee Top Gaps', url: 'data/level_1.json' },
             { color: '#563B68', weight: 3, key: '2', zIndex: 2, title: 'HUB Gaps', url: 'data/level_2.json' },
             { color: '#563B68', weight: 3, key: '3', zIndex: 3, title: 'Low stress for few (LTS 3)', url: 'data/level_3.json' }]
 
@@ -75,18 +76,8 @@
             maxZoom: 19
         }
         ).addTo(map);
-        // Add HUB TriCity committee attribution
+        // TODO: change this: Add HUB TriCity committee attribution
         map.attributionControl.addAttribution('<a href="http://wiki.bikehub.ca/committees/index.php?title=Tri-Cities_Committee_Wiki">Tri-Cities HUB Committee</a>');
-
-
-        //add map title
-        // let mapTitle = L.control({ position: "topright" });
-        // mapTitle.onAdd = function () {
-        //     let div = L.DomUtil.create("div", "mapTitle");
-        //     div.innerHTML =
-        //         '<p><b>Tri-Cities HUB Committee\'s Top Gaps</b></p>'
-        //     return div;
-        // };
 
         lineWeight = 5
         if (!L.Browser.mobile) {
@@ -94,7 +85,7 @@
             lineWeight = 6
         }
 
-        // HUB gaps
+        // ---- HUB gaps
         function onEachFeatureHUB(feature, layer) {
             var popupContent = ""
             if (feature.properties) {
@@ -119,11 +110,43 @@
             style: HUBgapStyle
         }).addTo(map);
 
-        // HUB adopt gap campain markers
+        // ----  HUB Adopt-a-gap campain markers
+        function onEachFeatureAdopt(feature, layer) {
+            var popupContent = ""
+            if (feature.properties) {
+                if (feature.properties.Name) {
+                    popupContent += "<b>Name: </b>";
+                    popupContent += feature.properties.Name;
+                }
+                if (feature.properties.Description) {
+                    popupContent += "<br><b>Description: </b>";
+                    popupContent += feature.properties.Description;
+                }
+            }
+            layer.bindPopup(popupContent);
+        }
 
-        // HUB TriCity Committe Top gaps
+        var adoptMarker = L.AwesomeMarkers.icon({
+            icon: 'circle',
+            markerColor: 'orange',
+            prefix: 'fa',
+            iconColor: '#E9EFE9'
+        });
+
+        var adoptLayer = new L.geoJSON(adoptGaps, {
+            style: HUBgapStyle,
+            onEachFeature: onEachFeatureAdopt,
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng, {
+                    icon: adoptMarker
+                });
+            }
+        });
+        adoptLayer.addTo(map);
+
+        // ---- Committe Top gaps
         // lines style
-        var gapStyle = {
+        var topGapStyle = {
             "color": "#FF7F00", // darkOrange_color ("Paired")
             "weight": lineWeight,
             "opacity": 0.5
@@ -131,7 +154,7 @@
         // var gapIconColor = 'orange'
         // var gapIconLight = "#E9EFE9" // light green (like map background. "Pages" color tool.)
 
-        function onEachFeature(feature, layer) {
+        function onEachFeatureTop(feature, layer) {
             var popupContent = ""
             if (feature.properties) {
                 if (feature.properties.location) {
@@ -146,25 +169,13 @@
             layer.bindPopup(popupContent);
         }
 
-        // var gapMarker = L.AwesomeMarkers.icon({
-        //     icon: 'circle',
-        //     markerColor: gapIconColor,
-        //     prefix: 'fa',
-        //     iconColor: gapIconLight
-        // });
-
-        var gapLayer = new L.geoJSON(geojsonFeature, {
-            style: gapStyle,
-            onEachFeature: onEachFeature,
-            pointToLayer: function (feature, latlng) {
-                return L.marker(latlng, {
-                    icon: gapMarker
-                });
-            }
+        var topGapLayer = new L.geoJSON(geojsonFeature, {
+            style: topGapStyle,
+            onEachFeature: onEachFeatureTop,
         });
-        gapLayer.addTo(map);
+        topGapLayer.addTo(map);
 
-        // legend 
+        // ---- legend 
         function addLegend() {
             const legend = L.control({ position: 'topright' })
             legend.onAdd = function (map) {
@@ -200,8 +211,13 @@
                     '&nbsp;' +
                         '<span style="display: inline-block;"><div style="display:flex; justify-content:center; align-items:center;"><img style="width:20px; height:20px;" src="img/adopt.png"></img>&nbsp;Adopt-a-Gap</div></span>' +
                     '</label>' +
+
                     '</fieldset></form></div>'
                 div.innerHTML = legendHtml
+
+                // disable map zoom when double clicking anywhere on legend (checkboxes included)
+                div.addEventListener('mouseover', function () { map.doubleClickZoom.disable(); });
+                div.addEventListener('mouseout', function () { map.doubleClickZoom.enable(); });
                 return div
             }
             legend.addTo(map)
