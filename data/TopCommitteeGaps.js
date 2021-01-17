@@ -1,4 +1,4 @@
-var geojsonFeature = {
+var topCommitteeJson = {
   "type": "FeatureCollection",
   "features": [
     {

@@ -1,4 +1,4 @@
-var adoptGaps = {
+var adoptGapsJson = {
     "type": "FeatureCollection",
     "features": [
         {
@@ -35,7 +35,7 @@ var adoptGaps = {
             "type": "Feature",
             "properties": {
                 "Name": "Gap 905 adopted: Kingsway MUP to Mary Hill Bypass",
-                "Description": "This gap has been generously adopted by Uliana. Learn more about her story here: <br> https://bikehub.ca/blog/uliana-is-helping-create-connected-cycling-network-and-you-can-too <br><br>You too can Adopt-a-Gap here: <a href=\"https://bikehub.ca/get-involved/ungapthemap/adopt-gap\" target=\"_blank\">https://bikehub.ca/get-involved/ungapthemap/adopt-gap</a> "
+                "Description": "This gap has been generously adopted by Uliana. Learn more about her story here: <br> <a href=\"https://bikehub.ca/blog/uliana-is-helping-create-connected-cycling-network-and-you-can-too\" target=\"_blank\">https://bikehub.ca/blog/uliana-is-helping-create-connected-cycling-network-and-you-can-too</a> <br><br>You too can Adopt-a-Gap here: <a href=\"https://bikehub.ca/get-involved/ungapthemap/adopt-gap\" target=\"_blank\">https://bikehub.ca/get-involved/ungapthemap/adopt-gap</a> "
             },
             "geometry": {
                 "type": "Point",
