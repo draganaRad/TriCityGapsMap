@@ -149,7 +149,7 @@ function addLegend() {
         // '<span style="display: inline-block;"><div style="display:flex; justify-content:center; align-items:center;"><img style="width:20px; height:20px;" src="img/adopt.png"></img>&nbsp;Adopt-a-Gap Campaign</div></span>' +
         // '</label>' +
 
-        legendHtml += '<div class="button quiet col12">*Click on map items for more info</div>'
+        legendHtml += '<div class="button quiet col12">Click on map items for more info</div>'
 
         legendHtml += '</fieldset></form></div>'
         div.innerHTML = legendHtml
