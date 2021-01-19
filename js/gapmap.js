@@ -21,9 +21,10 @@ L.tileLayer(
     maxZoom: 19
 }
 ).addTo(map);
-// TODO: change this: Add HUB TriCity committee attribution
+
 map.attributionControl.addAttribution('<a href="http://wiki.bikehub.ca/committees/index.php?title=Tri-Cities_Committee_Wiki">Tri-Cities Committee</a>');
 map.attributionControl.addAttribution('<a href="https://bikehub.ca/get-involved/ungapthemap/adopt-gap">HUB Cycling</a>');
+
 //--------------- add layers ---------------
 var layerGroup = new L.LayerGroup();
 layerGroup.addTo(map);
