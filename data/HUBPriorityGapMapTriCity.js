@@ -48,21 +48,6 @@ var HUBGapsJson = {
                 "type": "LineString",
                 "coordinates": [
                     [
-                        -122.8677463,
-                        49.2862273,
-                        0
-                    ],
-                    [
-                        -122.8672957,
-                        49.2845475,
-                        0
-                    ],
-                    [
-                        -122.8670167,
-                        49.281748,
-                        0
-                    ],
-                    [
                         -122.8669953,
                         49.2778006,
                         0
@@ -75,36 +60,6 @@ var HUBGapsJson = {
                     [
                         -122.8501296,
                         49.2777867,
-                        0
-                    ],
-                    [
-                        -122.8500652,
-                        49.2791866,
-                        0
-                    ],
-                    [
-                        -122.8502369,
-                        49.2794736,
-                        0
-                    ],
-                    [
-                        -122.8505373,
-                        49.2795926,
-                        0
-                    ],
-                    [
-                        -122.8509665,
-                        49.2795645,
-                        0
-                    ],
-                    [
-                        -122.8512668,
-                        49.2793406,
-                        0
-                    ],
-                    [
-                        -122.8513312,
-                        49.2789206,
                         0
                     ]
                 ]
@@ -248,7 +203,7 @@ var HUBGapsJson = {
             "type": "Feature",
             "properties": {
                 "Name": "PCO: Kingsway MUP to Mary Hill Bypass",
-                "Description": "<img src=\"https://doc-0o-18-mymaps.googleusercontent.com/untrusted/hostedimage/ju9filioed22cst2ebobdanhh8/rtilbkgf0em7b3tjl8mbkiajr4/1609277725250/DWfp8k2OR18PBwlhEOGf8whzmks04l_o/02651079418466074437/5AF2TALq7qRfpxbOM7o_dx0pquv4oCb_lwexgvfLw6pPDZWrhxzSFflJ9tXFw6v40gOtS8UIlWKZZo9ONRhpFtpmOu5T7NQBaYWWTCWyPqKRwxmI8LVAX0NIJbJ0ndrSl0x6Ki8owHYhI2cYr7ICKCAFGXxCiFtmd3BNIZjtVJyk03oo6ckvCrTavMJ0DCzfieFeHkzANdKcv60O0EXyWFWGsze08ovT67X_SPHht8lnByfGKqFW_Nmo0IQM6T84U_GZuxtF-0b2z6_7NOap-5T6aE0oaww3KTg?session=0&fife\" height=\"200\" width=\"auto\" /><br><br>Gap / REF: 905 - Major Improvement<br><br>This gap has been generously adopted by Uliana. Learn more about her story here: <br> https://bikehub.ca/blog/uliana-is-helping-create-connected-cycling-network-and-you-can-too <br><br>You too can Adopt-a-Gap here: https://bikehub.ca/get-involved/ungapthemap/adopt-gap "
+                "Description": "Gap / REF: 905 - Major Improvement"
             },
             "geometry": {
                 "type": "LineString",
@@ -730,41 +685,16 @@ var HUBGapsJson = {
                         0
                     ],
                     [
-                        -122.8292942,
-                        49.2764008,
-                        0
+                      -122.8300774,
+                      49.2764708
                     ],
                     [
-                        -122.8280497,
-                        49.2771008,
-                        0
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "Name": "PMO: Murray St from Moody St to Klahanie Dr",
-                "Description": "GAP / REF: 929 - Major improvement"
-            },
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        -122.8501725,
-                        49.2788926,
-                        0
+                      -122.829390,
+                      49.2765128
                     ],
                     [
-                        -122.8397655,
-                        49.2788366,
-                        0
-                    ],
-                    [
-                        -122.839154,
-                        49.2790746,
-                        0
+                      -122.8290152,
+                      49.2766458
                     ]
                 ]
             }
@@ -988,50 +918,6 @@ var HUBGapsJson = {
         {
             "type": "Feature",
             "properties": {
-                "Name": "PMO: Improved northbound connections on Murray Street at Moody Street overpass",
-                "Description": "GAP / REF: 934 - Spot improvement"
-            },
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        -122.8501618,
-                        49.2792146,
-                        0
-                    ],
-                    [
-                        -122.850194,
-                        49.2778567,
-                        0
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "Name": "PMO: St John's overpass at Inlet Station",
-                "Description": "GAP / REF: 935 - Major improvement"
-            },
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        -122.8285217,
-                        49.2766528,
-                        0
-                    ],
-                    [
-                        -122.8267193,
-                        49.2774507,
-                        0
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
                 "Name": "PMO: Moody Street crossing St John's",
                 "Description": "GAP / REF: 936 - Major improvement"
             },
@@ -1091,9 +977,8 @@ var HUBGapsJson = {
                         0
                     ],
                     [
-                        -122.8280497,
-                        49.2771008,
-                        0
+                        -122.8277519,
+                        49.2772722
                     ]
                 ]
             }
@@ -1638,19 +1523,8 @@ var HUBGapsJson = {
                         0
                     ],
                     [
-                        -122.7979874,
-                        49.2591928,
-                        0
-                    ],
-                    [
-                        -122.7977943,
-                        49.2601731,
-                        0
-                    ],
-                    [
-                        -122.7981376,
-                        49.2628057,
-                        0
+                        -122.7999293,
+                        49.2540250
                     ]
                 ]
             }

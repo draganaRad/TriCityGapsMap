@@ -22,7 +22,7 @@ L.tileLayer(
 }
 ).addTo(map);
 
-map.attributionControl.addAttribution('<a href="http://wiki.bikehub.ca/committees/index.php?title=Tri-Cities_Committee_Wiki">Tri-Cities Committee</a>');
+map.attributionControl.addAttribution('<a href="https://bikehub.ca/tri-cities">Tri-Cities Committee</a>');
 map.attributionControl.addAttribution('<a href="https://bikehub.ca/get-involved/ungapthemap/adopt-gap">HUB Cycling</a>');
 
 //--------------- add layers ---------------
@@ -35,6 +35,32 @@ if (!L.Browser.mobile) {
 }
 
 // ---- HUB gaps
+var HUBgapStyle = {
+    "color": settings[1].color, // 'darkpurple'
+    "weight": lineWeight,
+    "opacity": 0.5
+};
+var HUBgapStyleHighlight = {
+    "color": settings[1].color, // 'darkpurple'
+    "weight": lineWeight+1,
+    "opacity": 0.8
+};
+
+// functions to highligh lines on click
+function highlightFeatureHUB(e) {
+    var layer = e.target;
+
+    layer.setStyle(HUBgapStyleHighlight);
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+}
+function resetHighlightHUB(e) {
+    HUBgapLayer.resetStyle(e.target);
+}
+
+// add popup and highlight
 function onEachFeatureHUB(feature, layer) {
     var popupContent = ""
     if (feature.properties) {
@@ -48,12 +74,13 @@ function onEachFeatureHUB(feature, layer) {
         }
     }
     layer.bindPopup(popupContent);
+
+    layer.on({
+        mouseover: highlightFeatureHUB,
+        mouseout: resetHighlightHUB,
+    });
 }
-var HUBgapStyle = {
-    "color": settings[1].color, // 'darkpurple'
-    "weight": lineWeight,
-    "opacity": 0.5
-};
+
 var HUBgapLayer = new L.geoJSON(HUBGapsJson, {
     onEachFeature: onEachFeatureHUB,
     style: HUBgapStyle
@@ -100,7 +127,26 @@ var topGapStyle = {
     "weight": lineWeight,
     "opacity": 0.5
 };
+var topGapStyleHighlight = {
+    "color": settings[0].color, // 'darkpurple'
+    "weight": lineWeight+1,
+    "opacity": 0.8
+};
 
+function highlightFeatureTop(e) {
+    var layer = e.target;
+
+    layer.setStyle(topGapStyleHighlight);
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+}
+function resetHighlightTop(e) {
+    topGapLayer.resetStyle(e.target);
+}
+
+// add popup and highlight
 function onEachFeatureTop(feature, layer) {
     var popupContent = ""
     if (feature.properties) {
@@ -114,6 +160,11 @@ function onEachFeatureTop(feature, layer) {
         }
     }
     layer.bindPopup(popupContent);
+
+    layer.on({
+        mouseover: highlightFeatureTop,
+        mouseout: resetHighlightTop,
+    });
 }
 
 var topGapLayer = new L.geoJSON(topCommitteeJson, {
