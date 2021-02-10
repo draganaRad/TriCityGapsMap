@@ -1,7 +1,7 @@
 const settings = [
-    { type: "Line", color: '#FF7F00', key: 'topGap', zIndex: 2, title: 'Committee Top Gaps', url: 'data/TopCommitteeGaps.js' },
-    { type: "Line", color: '#563B68', key: 'HUBgap', zIndex: 1, title: 'HUB Major Gaps', url: 'data/HUBPriorityGapMapTriCity.js' },
-    { type: "Point", color: '#563B68', key: 'adoptGap', zIndex: 3, title: 'Adopt-a-Gap Campaign', url: 'data/AdoptGapTriCity.js', icon:'img/adopt.png' }]
+    { type: "Line", color: '#FF7F00', key: 'topGap', zIndex: 2, title: 'Committee Top Gaps', url: 'data/TopCommitteeGaps.js', checked: true},
+    { type: "Line", color: '#563B68', key: 'HUBgap', zIndex: 1, title: 'HUB Major Gaps', url: 'data/HUBPriorityGapMapTriCity.js', checked: showHUBgaps},
+    { type: "Point", color: '#563B68', key: 'adoptGap', zIndex: 3, title: 'Adopt-a-Gap Campaign', url: 'data/AdoptGapTriCity.js', icon:'img/adopt.png', checked: showAdopt}]
 
 // Create variable to hold map element, give initial settings to map
 var centerCoord = [49.254667, -122.825015]
@@ -23,7 +23,7 @@ L.tileLayer(
 ).addTo(map);
 
 map.attributionControl.addAttribution('<a href="https://bikehub.ca/tri-cities">Tri-Cities Committee</a>');
-map.attributionControl.addAttribution('<a href="https://bikehub.ca/get-involved/ungapthemap/adopt-gap">HUB Cycling</a>');
+map.attributionControl.addAttribution('<a href="https://bikehub.ca/get-involved/ungapthemap">HUB Cycling</a>');
 
 //--------------- add layers ---------------
 var layerGroup = new L.LayerGroup();
@@ -85,7 +85,9 @@ var HUBgapLayer = new L.geoJSON(HUBGapsJson, {
     onEachFeature: onEachFeatureHUB,
     style: HUBgapStyle
 })
-layerGroup.addLayer(HUBgapLayer);
+if (settings[1].checked){
+    layerGroup.addLayer(HUBgapLayer);
+}
 
 // ----  HUB Adopt-a-gap campain markers
 function onEachFeatureAdopt(feature, layer) {
@@ -118,7 +120,9 @@ var adoptLayer = new L.geoJSON(adoptGapsJson, {
     }
 });
 //adoptLayer.addTo(map);
-layerGroup.addLayer(adoptLayer);
+if (settings[2].checked){
+    layerGroup.addLayer(adoptLayer);
+}
 
 // ---- Committe Top gaps
 // lines style
@@ -226,7 +230,11 @@ function addLegendLine(setting) {
         '<img style="width:20px; height:20px;" src="'+ setting.icon +'"></img>&nbsp;'+ setting.title +'</div></span>'
     }
 
-    var lineHtml = '<input type="checkbox" id="'+ setting.key +'" onclick="toggleLayer(this)" checked="checked">' +
+    checkedHtml = ""
+    if (setting.checked){
+        checkedHtml = 'checked'
+    }
+    var lineHtml = '<input type="checkbox" id="'+ setting.key +'" onclick="toggleLayer(this)" ' + checkedHtml + ' >' +
         '<label for="'+ setting.key +'" id="'+ setting.key +'-label" class="button icon check quiet col12">' +
         '&nbsp;' + spanHtml + ' </label>'
 
