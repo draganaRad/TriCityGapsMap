@@ -65,7 +65,7 @@ function onEachFeatureHUB(feature, layer) {
     var popupContent = ""
     if (feature.properties) {
         if (feature.properties.Name) {
-            popupContent += "<b>Name: </b>";
+            popupContent += "<b>Location: </b>";
             popupContent += feature.properties.Name;
         }
         if (feature.properties.Description) {

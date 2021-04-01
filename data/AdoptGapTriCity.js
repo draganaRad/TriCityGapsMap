@@ -4,7 +4,7 @@ var adoptGapsJson = {
         {
             "type": "Feature",
             "properties": {
-                "Name": "Gap 920 adopted: Burns from Meridian to Dominion",
+                "Name": "Gap 920 adopted: Burns Road from Dominion Ave to Prairie Ave",
                 "Description": "Learn why Andrew Browne generously adopted this gap below:<br><br>\"This is a major link between two \"backways\" for bikes, and it desperately needs improvement.\""
             },
             "geometry": {
