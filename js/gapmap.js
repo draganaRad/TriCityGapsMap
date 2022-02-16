@@ -1,10 +1,11 @@
 const settings = [
-    { type: "Line", color: '#FF7F00', key: 'topGap', zIndex: 2, title: 'Committee Top Gaps', url: 'data/TopCommitteeGaps.js', checked: true},
-    { type: "Line", color: '#563B68', key: 'HUBgap', zIndex: 1, title: 'HUB Major Gaps', url: 'data/HUBPriorityGapMapTriCity.js', checked: showHUBgaps},
-    { type: "Point", color: '#563B68', key: 'adoptGap', zIndex: 3, title: 'Adopt-a-Gap Campaign', url: 'data/AdoptGapTriCity.js', icon:'img/adopt.png', checked: showAdopt}]
+    { type: "Line", color: '#FF7F00', key: 'topGap', zIndex: 2, title: 'Top Gaps', url: 'data/TopCommitteeGaps.js', checked: true},
+    { type: "Line", color: '#9031AA', key: 'HUBgap', zIndex: 1, title: 'Gaps/Hotspots', url: 'data/HUBGapMap_Feb2022.js', checked: showHUBgaps},
+    { type: "Point", color: '#563B68', key: 'adoptGap', zIndex: 3, title: 'Adopt a Gap', url: 'data/AdoptGapTriCity.js', icon:'img/adopt.png', checked: showAdopt}]
 
 // Create variable to hold map element, give initial settings to map
-var centerCoord = [49.254667, -122.825015]
+//var centerCoord = [49.254667, -122.825015]
+var centerCoord = [49.266872, -122.799271]
 if (L.Browser.mobile) {
     // increase tolerance for tapping (it was hard to tap on line exactly), zoom out a bit, and remove zoom control
     var myRenderer = L.canvas({ padding: 0.1, tolerance: 5 });
@@ -22,46 +23,49 @@ L.tileLayer(
 }
 ).addTo(map);
 
-map.attributionControl.addAttribution('<a href="https://bikehub.ca/tri-cities">Tri-Cities Committee</a>');
-map.attributionControl.addAttribution('<a href="https://bikehub.ca/get-involved/ungapthemap">HUB Cycling</a>');
+map.attributionControl.addAttribution('<a href="https://wiki.bikehub.ca/sites/committees/index.php?title=Tri-Cities_Committee_Wiki">Tri-Cities HUB</a>');
+map.attributionControl.addAttribution('<a href="https://bikehub.ca/get-involved/ungapthemap">HUB Adopt Gap</a>');
 
 //--------------- add layers ---------------
 var layerGroup = new L.LayerGroup();
 layerGroup.addTo(map);
 
-lineWeight = 5
+lineWeight = 4
 if (!L.Browser.mobile) {
-    lineWeight = 6
+    lineWeight = lineWeight + 1
 }
+lineOpacity = 0.55
+lineOpacityHighlight = 0.8
 
-// ---- HUB gaps
-var HUBgapStyle = {
-    "color": settings[1].color, // 'darkpurple'
+// ALL GAPS =============================
+// data source: https://www.google.com/maps/d/u/1/viewer?hl=en&mid=1wlQVVmwJBDBVMZt2S5-5Ts5z9unilKHJ&ll=49.262487040884245%2C-122.81604464401828&z=13
+var HUBallGapStyle = {
+    "color": '#9031AA',
     "weight": lineWeight,
-    "opacity": 0.5
+    "opacity": lineOpacity
 };
-var HUBgapStyleHighlight = {
-    "color": settings[1].color, // 'darkpurple'
+var HUBallGapStyleHighlight = {
+    "color": '#9031AA',
     "weight": lineWeight+1,
-    "opacity": 0.8
+    "opacity": lineOpacityHighlight
 };
 
-// functions to highligh lines on click
-function highlightFeatureHUB(e) {
+function highlightFeatureHUBall(e) {
     var layer = e.target;
-
-    layer.setStyle(HUBgapStyleHighlight);
-
-    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-        layer.bringToFront();
+    if (typeof layer.setStyle === "function") { //for markers received error here "layer.setStyle is not a function"
+        layer.setStyle(HUBallGapStyleHighlight);
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+            layer.bringToFront();
+        }
     }
 }
-function resetHighlightHUB(e) {
-    HUBgapLayer.resetStyle(e.target);
+function resetHighlightHUBall(e) {
+    if (typeof HUBallGapLayer.resetStyle === "function") {
+        HUBallGapLayer.resetStyle(e.target);
+    }
 }
 
-// add popup and highlight
-function onEachFeatureHUB(feature, layer) {
+function onEachFeatureHUBall(feature, layer) {
     var popupContent = ""
     if (feature.properties) {
         if (feature.properties.Name) {
@@ -69,27 +73,39 @@ function onEachFeatureHUB(feature, layer) {
             popupContent += feature.properties.Name;
         }
         if (feature.properties.Description) {
-            popupContent += "<br><b>Description: </b>";
+            popupContent += "<br><b>Id: </b>";
             popupContent += feature.properties.Description;
         }
     }
     layer.bindPopup(popupContent);
 
     layer.on({
-        mouseover: highlightFeatureHUB,
-        mouseout: resetHighlightHUB,
+        mouseover: highlightFeatureHUBall,
+        mouseout: resetHighlightHUBall,
     });
 }
 
-var HUBgapLayer = new L.geoJSON(HUBGapsJson, {
-    onEachFeature: onEachFeatureHUB,
-    style: HUBgapStyle
-})
-if (settings[1].checked){
-    layerGroup.addLayer(HUBgapLayer);
+var HUBallIcon = L.icon({
+    iconUrl: 'img/purplePinIcon2.png',
+    iconSize: [22, 31],
+    iconAnchor: [11, 30],
+    popupAnchor:  [0, -20]
+});
+
+var HUBallGapLayer = new L.geoJSON(HUBGapsJson2022, {
+    style: HUBallGapStyle,
+    onEachFeature: onEachFeatureHUBall,
+    pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {
+            icon: HUBallIcon
+        });
+    }
+});
+if (showHUBgaps){
+    layerGroup.addLayer(HUBallGapLayer);
 }
 
-// ----  HUB Adopt-a-gap campain markers
+// Adopt-a-gap campain markers =======================
 function onEachFeatureAdopt(feature, layer) {
     var popupContent = ""
     if (feature.properties) {
@@ -111,7 +127,6 @@ var adoptIcon = L.icon({
 });
 
 var adoptLayer = new L.geoJSON(adoptGapsJson, {
-    style: HUBgapStyle,
     onEachFeature: onEachFeatureAdopt,
     pointToLayer: function (feature, latlng) {
         return L.marker(latlng, {
@@ -124,24 +139,35 @@ if (settings[2].checked){
     layerGroup.addLayer(adoptLayer);
 }
 
-// ---- Committe Top gaps
-// lines style
-var topGapStyle = {
-    "color": settings[0].color, // darkOrange_color ("Paired")
-    "weight": lineWeight,
-    "opacity": 0.5
-};
-var topGapStyleHighlight = {
-    "color": settings[0].color, // 'darkpurple'
-    "weight": lineWeight+1,
-    "opacity": 0.8
-};
+// Committe Top gaps =======================================================
+// data source: https://wiki.bikehub.ca/sites/committees/index.php?title=Tri-Cities_Committee_Wiki
 
+// style for lines
+function styleTop(feature) {
+    // for straight line make wider, more transparent and rounded corners
+    var weight = lineWeight;
+    var opacity = lineOpacity;
+    if (feature.properties.type == "line"){
+        weight = lineWeight + 13;
+        opacity = 0.3
+    }
+    return {
+        weight: weight,
+        opacity: opacity,
+        color: settings[0].color
+    };
+}
+
+// functions to highlight lines on click
 function highlightFeatureTop(e) {
     var layer = e.target;
-
-    layer.setStyle(topGapStyleHighlight);
-
+    var newOpacity = lineOpacityHighlight;
+    var newWeight = lineWeight+1;
+    if (layer.feature.properties.type == "line"){
+        newOpacity = 0.5
+        newWeight = lineWeight + 14;
+    }
+    layer.setStyle({opacity :newOpacity, weight: newWeight});
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
         layer.bringToFront();
     }
@@ -154,8 +180,12 @@ function resetHighlightTop(e) {
 function onEachFeatureTop(feature, layer) {
     var popupContent = ""
     if (feature.properties) {
+        if (feature.id) {
+            popupContent += "<b>Gap #";
+            popupContent += feature.id + "</b>";
+        }
         if (feature.properties.location) {
-            popupContent += "<b>Location: </b>";
+            popupContent += "<br><b>Location: </b>";
             popupContent += feature.properties.location;
         }
         if (feature.properties.description) {
@@ -172,12 +202,12 @@ function onEachFeatureTop(feature, layer) {
 }
 
 var topGapLayer = new L.geoJSON(topCommitteeJson, {
-    style: topGapStyle,
+    style: styleTop,
     onEachFeature: onEachFeatureTop,
 });
 layerGroup.addLayer(topGapLayer);
 
-// ---- legend 
+// ======================= LEGEND 
 function addLegend() {
     const legend = L.control({ position: 'topright' })
     legend.onAdd = function (map) {
@@ -188,8 +218,14 @@ function addLegend() {
             '<div class="clearfix"></div>' +
             '<form><fieldset class="checkbox-pill clearfix">'
 
+        legendHtml += '<div class="button quiet col12">HUB Tri-Cities Cycling Gaps:</div>'
+
         for (let setting of settings) {
             legendHtml += addLegendLine(setting)
+            // add "community feedback:"
+            if (setting.key == "HUBgap"){ //todo: this probably shouldn't be hardcoded
+                legendHtml += '<div class="button quiet col12">Community Feedback:</div>'
+            }
         }
         // '<input type="checkbox" id="low_stress" checked="checked">' +
         // '<label for="low_stress" id="low_stress-label" class="button icon check quiet col12">' +
@@ -219,7 +255,6 @@ function addLegend() {
 }
 
 function addLegendLine(setting) {
-
     var spanHtml
     if (setting.type == "Line"){
         spanHtml = '<span style="display:inline-block; width:50px; height:8px; background-color:' + setting.color +'"></span>' +
@@ -263,7 +298,7 @@ function toggleLayer(checkbox) {
         targetLayer = topGapLayer
     }
     if (checkbox.id == "HUBgap"){
-        targetLayer = HUBgapLayer
+        targetLayer = HUBallGapLayer
     }
     if (checkbox.id == "adoptGap"){
         targetLayer = adoptLayer
