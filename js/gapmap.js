@@ -1,7 +1,7 @@
 const settings = [
     { type: "Line", color: '#FF7F00', key: 'topGap', zIndex: 2, title: 'Top Gaps', url: 'data/TopCommitteeGaps.js', checked: true},
-    { type: "Line", color: '#9031AA', key: 'HUBgap', zIndex: 1, title: 'Gaps/Hotspots', url: 'data/HUBGapMap_Feb2022.js', checked: showHUBgaps},
-    { type: "Point", color: '#563B68', key: 'adoptGap', zIndex: 3, title: 'Adopt a Gap', url: 'data/AdoptGapTriCity.js', icon:'img/adopt.png', checked: showAdopt}]
+    { type: "Line", color: '#9031AA', key: 'HUBgap', zIndex: 1, title: 'Gaps/Hotspots', url: 'data/HUBGapMap_Feb2022.js', checked: showHUBgaps}]
+    //{ type: "Point", color: '#563B68', key: 'adoptGap', zIndex: 3, title: 'Adopt a Gap', url: 'data/AdoptGapTriCity.js', icon:'img/adopt.png', checked: showAdopt}]
 
 // Create variable to hold map element, give initial settings to map
 //var centerCoord = [49.254667, -122.825015]
@@ -126,18 +126,18 @@ var adoptIcon = L.icon({
     iconSize: [25, 25], // size of the icon
 });
 
-var adoptLayer = new L.geoJSON(adoptGapsJson, {
-    onEachFeature: onEachFeatureAdopt,
-    pointToLayer: function (feature, latlng) {
-        return L.marker(latlng, {
-            icon: adoptIcon
-        });
-    }
-});
+// var adoptLayer = new L.geoJSON(adoptGapsJson, {
+//     onEachFeature: onEachFeatureAdopt,
+//     pointToLayer: function (feature, latlng) {
+//         return L.marker(latlng, {
+//             icon: adoptIcon
+//         });
+//     }
+// });
 //adoptLayer.addTo(map);
-if (settings[2].checked){
-    layerGroup.addLayer(adoptLayer);
-}
+// if (settings[2].checked){
+//     layerGroup.addLayer(adoptLayer);
+// }
 
 // Committe Top gaps =======================================================
 // data source: https://wiki.bikehub.ca/sites/committees/index.php?title=Tri-Cities_Committee_Wiki
@@ -223,9 +223,9 @@ function addLegend() {
         for (let setting of settings) {
             legendHtml += addLegendLine(setting)
             // add "community feedback:"
-            if (setting.key == "HUBgap"){ //todo: this probably shouldn't be hardcoded
-                legendHtml += '<div class="button quiet col12">Community Feedback:</div>'
-            }
+            // if (setting.key == "HUBgap"){ //todo: this probably shouldn't be hardcoded
+            //     legendHtml += '<div class="button quiet col12">Community Feedback:</div>'
+            // }
         }
         // '<input type="checkbox" id="low_stress" checked="checked">' +
         // '<label for="low_stress" id="low_stress-label" class="button icon check quiet col12">' +
@@ -300,9 +300,9 @@ function toggleLayer(checkbox) {
     if (checkbox.id == "HUBgap"){
         targetLayer = HUBallGapLayer
     }
-    if (checkbox.id == "adoptGap"){
-        targetLayer = adoptLayer
-    }
+    // if (checkbox.id == "adoptGap"){
+    //     targetLayer = adoptLayer
+    // }
 
     if (checkbox.checked){
         layerGroup.addLayer(targetLayer);
