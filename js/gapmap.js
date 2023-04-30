@@ -1,6 +1,6 @@
 const settings = [
     { type: "Line", color: '#FF7F00', key: 'topGap', zIndex: 2, title: 'Top Gaps', url: 'data/TopCommitteeGaps.js', checked: true},
-    { type: "Line", color: '#9031AA', key: 'HUBgap', zIndex: 1, title: 'Gaps/Hotspots', url: 'data/HUBGapMap_Feb2022.js', checked: showHUBgaps}]
+    { type: "Line", color: '#9031AA', key: 'HUBgap', zIndex: 1, title: 'Gaps/Hotspots', url: 'data/HUBPriorityGapMap_Apr2023.js', checked: showHUBgaps}]
     //{ type: "Point", color: '#563B68', key: 'adoptGap', zIndex: 3, title: 'Adopt a Gap', url: 'data/AdoptGapTriCity.js', icon:'img/adopt.png', checked: showAdopt}]
 
 // Create variable to hold map element, give initial settings to map
@@ -24,7 +24,7 @@ L.tileLayer(
 ).addTo(map);
 
 map.attributionControl.addAttribution('<a href="https://wiki.bikehub.ca/sites/committees/index.php?title=Tri-Cities_Committee_Wiki">Tri-Cities HUB</a>');
-map.attributionControl.addAttribution('<a href="https://bikehub.ca/get-involved/ungapthemap">HUB Adopt Gap</a>');
+// map.attributionControl.addAttribution('<a href="https://bikehub.ca/get-involved/ungapthemap">HUB Adopt Gap</a>');
 
 //--------------- add layers ---------------
 var layerGroup = new L.LayerGroup();
@@ -92,7 +92,7 @@ var HUBallIcon = L.icon({
     popupAnchor:  [0, -20]
 });
 
-var HUBallGapLayer = new L.geoJSON(HUBGapsJson2022, {
+var HUBallGapLayer = new L.geoJSON(HUBGapsJsonApr2023, {
     style: HUBallGapStyle,
     onEachFeature: onEachFeatureHUBall,
     pointToLayer: function (feature, latlng) {
